@@ -3,8 +3,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 public class ZBSave {
-    public String saveNum;
-    private String ZBDir;
+    public final String saveNum;
+    private final String ZBDir;
 
     /**
      * reads the file & initialises the save number/directory of the saves
@@ -22,9 +22,17 @@ public class ZBSave {
 
     /**
      * refreshes the data from the file (will remove any unsaved modifications)
+     * @return returns if it successfully read the file or not as a boolean
      */
-    public void read() {
+    public boolean read() {
+        try {
+            FileReader read = new FileReader(ZBDir + "" + saveNum);
 
+            return true;
+        } catch (IOException e) {
+            System.out.println(e.toString());
+            return false;
+        }
     }
 
     /**
