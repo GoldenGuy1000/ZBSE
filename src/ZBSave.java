@@ -36,8 +36,10 @@ public class ZBSave {
             // making it a string
             String saveString = String.valueOf(saveRaw);
 
-            // grabbing the content with some epic #regex (doing this in teirs so it's easier to read
-            Matcher m = Pattern.compile("").matcher();
+            // grabbing the content with some epic #regex (doing this in tiers so it's easier to read)
+            //teir 1 (grabbing everything within the outer curly brackets)
+            Matcher fullJson = Pattern.compile("\\{(.+)\\}").matcher(saveString);
+
 
             // returning that it worked
             return true;
