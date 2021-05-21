@@ -27,6 +27,10 @@ public class ZBSave {
     public boolean read() {
         try {
             FileReader read = new FileReader(ZBDir + "" + saveNum);
+            char[] saveRaw = new char[2000];
+            read.read(saveRaw);
+
+
 
             return true;
         } catch (IOException e) {
