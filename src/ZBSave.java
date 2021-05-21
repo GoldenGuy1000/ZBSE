@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ZBSave {
     public final String saveNum;
@@ -26,14 +28,22 @@ public class ZBSave {
      */
     public boolean read() {
         try {
-            FileReader read = new FileReader(ZBDir + "" + saveNum);
+            // reading the file into an array
+            FileReader read = new FileReader(ZBDir + "saveData_" + saveNum);
             char[] saveRaw = new char[2000];
             read.read(saveRaw);
 
+            // making it a string
+            String saveString = String.valueOf(saveRaw);
 
+            // grabbing the content with some epic #regex (doing this in teirs so it's easier to read
+            Matcher m = Pattern.compile("").matcher();
 
+            // returning that it worked
             return true;
-        } catch (IOException e) {
+        }
+        // if it doesn't work it prints what happened & returns that
+        catch (IOException e) {
             System.out.println(e.toString());
             return false;
         }
