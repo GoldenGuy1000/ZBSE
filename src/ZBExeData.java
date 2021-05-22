@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class ZBExeData {
     public static void main(String[] args) {
 
-        String ZaplingDir = "F:\\Program Files (x86)\\ZaplingBygone_110521\\";
+        String ZaplingDir = args[0];
         System.out.println(getRoomNames(ZaplingDir));
 
     }

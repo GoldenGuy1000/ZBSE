@@ -1,13 +1,13 @@
 import java.io.IOException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 public class ZBSave {
 
     public static void main(String[] args) {
-        ZBSave sav1 = new ZBSave("00", "C:\\Users\\Oliver.baconation\\AppData\\Local\\ZaplingBygone\\");
+        ZBSave sav1 = new ZBSave(args[0], args[1]);
     }
 
     public final String saveNum;
@@ -52,6 +52,7 @@ public class ZBSave {
 
             // building tier 3 (making linked pairs)
             // making the hashmaps
+            HashMap<String, String> all = new HashMap<>();
 
 
             while (jsonObject.find()) {
