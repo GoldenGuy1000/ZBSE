@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,16 +41,25 @@ public class ZBSave {
 
             // making it a string
             String saveString = String.valueOf(saveRaw);
+
             // grabbing the content with some epic #regex (doing this in tiers so it's easier to read)
             //tier 1 (grabbing everything within the outer curly brackets)
             Matcher fullJson = Pattern.compile("\\{(.+)}").matcher(saveString);
-            // tier 2 (making a list of all the objects
+
+            // tier 2 (making a list of all the objects)
             fullJson.find();
             Matcher jsonObject = Pattern.compile("(?<=,|^).+?(?:\\{.+?})?(?=,|$)").matcher(fullJson.group(1));
-            while(jsonObject.find()) {
-                System.out.println(jsonObject.group());
-            }
 
+            // building tier 3 (making linked pairs)
+            // making the hashmaps
+
+
+            while (jsonObject.find()) {
+                Matcher jsonKeyVal = Pattern.compile("\"(.+?)\": *\"(.+?)\"").matcher(jsonObject.group(0));
+                jsonKeyVal.find();
+                System.out.println(jsonKeyVal.group(1));
+
+            }
 
             // returning that it worked
             return true;
