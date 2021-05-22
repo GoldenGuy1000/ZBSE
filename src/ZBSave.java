@@ -5,6 +5,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ZBSave {
+
+    public static void main(String[] args) {
+        ZBSave sav1 = new ZBSave("00", "C:\\Users\\Oliver.baconation\\AppData\\Local\\ZaplingBygone\\");
+    }
+
     public final String saveNum;
     private final String ZBDir;
 
@@ -20,6 +25,7 @@ public class ZBSave {
     public ZBSave(String saveNumber, String ZBSaveLoc) {
         saveNum = saveNumber;
         ZBDir = ZBSaveLoc;
+        read();
     }
 
     /**
@@ -29,17 +35,20 @@ public class ZBSave {
     public boolean read() {
         try {
             // reading the file into an array
-            FileReader read = new FileReader(ZBDir + "saveData_" + saveNum);
-            char[] saveRaw = new char[2000];
+            FileReader read = new FileReader(ZBDir + "saveData_" + saveNum + ".sav");
+            char[] saveRaw = new char[32768];
             read.read(saveRaw);
 
             // making it a string
             String saveString = String.valueOf(saveRaw);
-
             // grabbing the content with some epic #regex (doing this in tiers so it's easier to read)
-            //teir 1 (grabbing everything within the outer curly brackets)
-            Matcher fullJson = Pattern.compile("\\{(.+)\\}").matcher(saveString);
-
+            //tier 1 (grabbing everything within the outer curly brackets)
+            Matcher fullJson = Pattern.compile("\\{(.+)}").matcher(saveString);
+            // tier 2 (making a list of all the objects
+            fullJson.find();
+            Matcher jsonBit = Pattern.compile("(?<=,|^).+?(?:\\{.+?})?(?=,|$)").matcher(fullJson.group(1));
+            jsonBit.find();
+            System.out.println(jsonBit.group(1));
 
             // returning that it worked
             return true;
