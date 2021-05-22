@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,9 +45,11 @@ public class ZBSave {
             Matcher fullJson = Pattern.compile("\\{(.+)}").matcher(saveString);
             // tier 2 (making a list of all the objects
             fullJson.find();
-            Matcher jsonBit = Pattern.compile("(?<=,|^).+?(?:\\{.+?})?(?=,|$)").matcher(fullJson.group(1));
-            jsonBit.find();
-            System.out.println(jsonBit.group(1));
+            Matcher jsonObject = Pattern.compile("(?<=,|^).+?(?:\\{.+?})?(?=,|$)").matcher(fullJson.group(1));
+            while(jsonObject.find()) {
+                System.out.println(jsonObject.group());
+            }
+
 
             // returning that it worked
             return true;
