@@ -41,27 +41,9 @@ public class ZBSave {
 
             // making it a string
             String saveString = String.valueOf(saveRaw);
-
-            // grabbing the content with some epic #regex (doing this in tiers so it's easier to read)
-            //tier 1 (grabbing everything within the outer curly brackets)
-            Matcher fullJson = Pattern.compile("\\{(.+)}").matcher(saveString);
-
-            // tier 2 (making a list of all the objects)
-            fullJson.find();
-            Matcher jsonObject = Pattern.compile("(?<=,|^).+?(?:\\{.+?})?(?=,|$)").matcher(fullJson.group(1));
-
-            // building tier 3 (making linked pairs)
-            // making the hashmaps
-            HashMap<String, String> all = new HashMap<>();
-
-
-            while (jsonObject.find()) {
-                Matcher jsonKeyVal = Pattern.compile("\"(.+?)\": *\"(.+?)\"").matcher(jsonObject.group(0));
-                jsonKeyVal.find();
-                System.out.println(jsonKeyVal.group(1));
-
-            }
-
+            // converting it to a map (basically a dict but java with the funny names)
+            HashMap<String, Object> all = Json.toHashMap(saveString);
+            System.out.println(all);
             // returning that it worked
             return true;
         }
