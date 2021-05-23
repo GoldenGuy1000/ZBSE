@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,6 +36,41 @@ public class Json {
             }
         }
         return all;
+    }
+
+    public static String valueOf (HashMap<String, Object> map) {
+        // starting output string
+        StringBuilder output = new StringBuilder("{ ");
+        // making keys & values arrays
+        Object[] keys = map.keySet().toArray();
+        Object[] vals = map.values().toArray();
+
+        // making everything strings
+        for (int i = 0; i < vals.length; i++) {
+            // for keys
+            keys[i] = String.valueOf(keys[i]);
+            // for vals
+            Class<?> valClass = vals[i].getClass();
+            if (valClass == HashMap.class) {
+                vals[i] = valueOf((HashMap<String, Object>)vals[i]);
+            } else {
+                vals[i] = String.valueOf(vals[i]);
+            }
+        }
+
+        // putting all the values in the actual output
+        for (int i = 0; i < keys.length; i++) {
+            if (i != 0) // if it's not the first one adds a nice comma space
+                output.append(", ");
+            output.append("\"");
+            output.append(keys[i]);
+            output.append("\": \"");
+            output.append(vals[i]);
+            output.append("\"");
+        }
+        // adding the ending curly
+        output.append(" }");
+        return output.toString();
     }
 }
 //todo fix how it deals with decimals & make it return the proper type (like Double & stuff)

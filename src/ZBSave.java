@@ -62,7 +62,7 @@ public class ZBSave {
         try {
             // creating the writer
             FileWriter write = new FileWriter(ZBDir + "saveData_" + saveNum + ".sav");
-            write.write("amogus"); // the perfect write function
+            write.write(Json.valueOf(saveData));
             write.close();
             return true;
         }
