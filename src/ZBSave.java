@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileReader;
 import java.io.RandomAccessFile;
@@ -9,6 +10,7 @@ public class ZBSave {
 
     public static void main(String[] args) {
         ZBSave sav1 = new ZBSave(args[0], args[1]);
+        sav1.write();
     }
 
     public final String saveNum;
@@ -39,6 +41,8 @@ public class ZBSave {
             // reading the file into a string
             RandomAccessFile read = new RandomAccessFile(ZBDir + "saveData_" + saveNum + ".sav", "r");
             String saveString = read.readLine();
+            // closing the file because it'll cause weirdness if I don't
+            read.close();
             // converting it to a map (basically a dict but java with the funny names)
             saveData = Json.toHashMap(saveString);
             // returning that it worked
@@ -54,10 +58,19 @@ public class ZBSave {
     /**
      * writes back to the file (will overwrite if the file has changed)
      */
-    public void write() {
-
+    public boolean write() {
+        try {
+            // creating the writer
+            FileWriter write = new FileWriter(ZBDir + "saveData_" + saveNum + ".sav");
+            write.write("amogus"); // the perfect write function
+            write.close();
+            return true;
+        }
+        // same as read, if it doesn't work it'll return false & go print out the error
+        catch (IOException e) {
+            System.out.println(e.toString());
+            return false;
+        }
     }
-
-
 
 }
