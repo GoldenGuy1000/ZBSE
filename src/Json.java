@@ -9,8 +9,9 @@ public class Json {
         Matcher fullJson = Pattern.compile("\\{(.+)}").matcher(json);
 
         // tier 2 (making a list of all the objects)
-        if (fullJson.find());
-        return jsObject(fullJson.group());
+        if (fullJson.find())
+            return jsObject(fullJson.group());
+        return null;
     }
 
     private static HashMap<String, Object> jsObject(String fullJson) {
