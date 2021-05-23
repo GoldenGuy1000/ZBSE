@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.FileReader;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -12,6 +13,7 @@ public class ZBSave {
 
     public final String saveNum;
     private final String ZBDir;
+    public HashMap<String, Object> saveData;
 
     /**
      * reads the file & initialises the save number/directory of the saves
@@ -34,20 +36,15 @@ public class ZBSave {
      */
     public boolean read() {
         try {
-            // reading the file into an array
-            FileReader read = new FileReader(ZBDir + "saveData_" + saveNum + ".sav");
-            char[] saveRaw = new char[32768];
-            read.read(saveRaw);
-
-            // making it a string
-            String saveString = String.valueOf(saveRaw);
+            // reading the file into a string
+            RandomAccessFile read = new RandomAccessFile(ZBDir + "saveData_" + saveNum + ".sav", "r");
+            String saveString = read.readLine();
             // converting it to a map (basically a dict but java with the funny names)
-            HashMap<String, Object> all = Json.toHashMap(saveString);
-            System.out.println(all);
+            saveData = Json.toHashMap(saveString);
             // returning that it worked
             return true;
         }
-        // if it doesn't work it prints what happened & returns that
+        // if it doesn't work (throws an error for whatever reason) it'll go print it & return that it failed
         catch (IOException e) {
             System.out.println(e.toString());
             return false;

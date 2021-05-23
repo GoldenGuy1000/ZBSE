@@ -3,34 +3,38 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Json {
+    /**
+     * when it finds an object it calls itself
+     * @param json a nice json object {"like": "this"}
+     * @return a hashmap
+     */
     public static HashMap<String, Object> toHashMap (String json) {
-        // grabbing the content with some epic #regex (doing this in tiers so it's easier to read)
-        //tier 1 (grabbing everything within the outer curly brackets)
-        Matcher fullJson = Pattern.compile("\\{(.+)}").matcher(json);
+        // if there's curly brackets this gets rid of them
+        Matcher noCurlyBracket = Pattern.compile("\\{(.+)}").matcher(json);
+        if (noCurlyBracket.find())
+        json = noCurlyBracket.group(1).trim();
 
-        // tier 2 (making a list of all the objects)
-        if (fullJson.find())
-            return jsObject(fullJson.group());
-        return null;
-    }
+        // yes I really did spend 10 hours on regex to make this move along
+        Matcher jsonObject = Pattern.compile("\"(.+?)\": (?:\"(.+?)\"|\\{(.+?)})").matcher(json);
 
-    private static HashMap<String, Object> jsObject(String fullJson) {
-        Matcher jsonObject = Pattern.compile("(?<=,|^).+?(?:\\{.+?})?(?=,|$)").matcher(fullJson);
-
-        // building tier 3 (making linked pairs)
+        // making output map
         HashMap<String, Object> all = new HashMap<>();
 
         while (jsonObject.find()) {
-            Matcher jsonKeyVal = Pattern.compile("\"(.+?)\": \"(.+?)\"").matcher(jsonObject.group(0));
-            // making the hashmaps
-            if (jsonKeyVal.find())
-                all.put(jsonKeyVal.group(1), jsonKeyVal.group(2));
+            // populating the hashmap
+            if (jsonObject.group(3)==null) {
+                all.put(jsonObject.group(1).trim(), jsonObject.group(2).trim());
+            }
+            // epic recursion if it's an array
+            else if (jsonObject.group(2)==null){
+                all.put(jsonObject.group(1).trim(), toHashMap(jsonObject.group(3).trim()));
+            }
+            // just in case my regex *somehow* broke
             else {
-                // different splitting for maximum inconsistency
-                String[] arraySplitThingy = jsonObject.group(0).split("\": \\{");
-                all.put(arraySplitThingy[0].substring(1), jsObject(arraySplitThingy[1].substring(0, arraySplitThingy.length)));
+                System.out.println("matching didn't work for some reason with this element:\t" + jsonObject.group(0));
             }
         }
         return all;
     }
 }
+//todo fix how it deals with decimals & make it return the proper type (like Double & stuff)
