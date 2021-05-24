@@ -10,6 +10,10 @@ public class ZBSave {
 
     public static void main(String[] args) {
         ZBSave sav1 = new ZBSave(args[0], args[1]);
+        System.out.println(sav1.change(new String[]{"ratland_01obj_bench36283state"},"dead"));
+//        System.out.println(sav1.change(new String[]{"charms_mp", "ch_beam_reet"},"1"));
+//        System.out.println(((HashMap<String, Object>)sav1.saveData.get("charms_map")).get("ch_beam_active"));
+        sav1.write();
     }
 
     public final String saveNum;
@@ -87,25 +91,23 @@ public class ZBSave {
      * changes a value in the save file
      * @param path what path it takes to get there (as an array, needed for things like ["skulls_map", "sk_robo_unlocked"])
      * @param value the value you want to change it to (has to be an object; no primitives)
-     * @return returns if it successfully changed that value
+     * @return returns what was previously there
      */
-    public boolean change(String[] path, Object value) {
-        try {
-            HashMap<String, Object> p = saveData;
-            // looping down to the level at which the thing is being changed
-            for (int i = 0; i < path.length; i++) {
-                if (i < path.length-1)
-                    p = (HashMap<String, Object>) p.get(path[i]);
-                else
-                    p.put(path[path.length-1], value);
+    public Object change(String[] path, Object value) {
+        HashMap<String, Object> p = saveData;
+        // looping down to the level at which the thing is being changed
+        for (int i = 0; i < path.length; i++) {
+            if (i < path.length-1)
+                p = (HashMap<String, Object>) p.get(path[i]);
+            else {
+                try {
+                    return p.put(path[path.length - 1], value);
+                } catch (NullPointerException e) {
+                    return e;
+                }
             }
-
-            return true;
         }
-        catch (ClassCastException e) {
-            System.out.println(e);
-            return false;
-        }
+        return null;
     }
 
 }
