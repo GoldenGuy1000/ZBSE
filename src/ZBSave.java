@@ -55,7 +55,8 @@ public class ZBSave {
     }
 
     /**
-     * writes back to the file (will overwrite if the file has changed)
+     * writes back to the file (will overwrite anything currently there)
+     * @return boolean if it successfully wrote to file without any errors
      */
     public boolean write() {
         try {
@@ -68,6 +69,41 @@ public class ZBSave {
         // same as read, if it doesn't work it'll return false & go print out the error
         catch (IOException e) {
             System.out.println(e.toString());
+            return false;
+        }
+    }
+
+    /**
+     * changes a value in the save file
+     * @param path what path it takes to get there (ex: "statue_Celeste")
+     * @param value the value you want to change it to (has to be an object; no primitives)
+     * @return returns what was previously there
+     */
+    public Object change(String path, Object value) {
+            return saveData.put(path, value);
+    }
+
+    /**
+     * changes a value in the save file
+     * @param path what path it takes to get there (as an array, needed for things like ["skulls_map", "sk_robo_unlocked"])
+     * @param value the value you want to change it to (has to be an object; no primitives)
+     * @return returns if it successfully changed that value
+     */
+    public boolean change(String[] path, Object value) {
+        try {
+            HashMap<String, Object> p = saveData;
+            // looping down to the level at which the thing is being changed
+            for (int i = 0; i < path.length; i++) {
+                if (i < path.length-1)
+                    p = (HashMap<String, Object>) p.get(path[i]);
+                else
+                    p.put(path[path.length-1], value);
+            }
+
+            return true;
+        }
+        catch (ClassCastException e) {
+            System.out.println(e);
             return false;
         }
     }
