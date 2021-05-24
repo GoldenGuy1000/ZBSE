@@ -10,7 +10,6 @@ public class ZBSave {
 
     public static void main(String[] args) {
         ZBSave sav1 = new ZBSave(args[0], args[1]);
-        sav1.write();
     }
 
     public final String saveNum;

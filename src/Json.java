@@ -16,7 +16,7 @@ public class Json {
         json = noCurlyBracket.group(1).trim();
 
         // yes I really did spend 10 hours on regex to make this move along
-        Matcher jsonObject = Pattern.compile("\"(.+?)\": (?:\"(.+?)\"|\\{(.+?)})").matcher(json);
+        Matcher jsonObject = Pattern.compile("\"(.+?)\": (?:\"(.*?)\"|\\{(.+?)})").matcher(json);
 
         // making output map
         HashMap<String, Object> all = new HashMap<>();
@@ -52,9 +52,9 @@ public class Json {
             // for vals
             Class<?> valClass = vals[i].getClass();
             if (valClass == HashMap.class) {
-                vals[i] = valueOf((HashMap<String, Object>)vals[i]);
+                vals[i] = Json.valueOf((HashMap<String, Object>)vals[i]);
             } else {
-                vals[i] = String.valueOf(vals[i]);
+                vals[i] = "\"" + vals[i] + "\"";
             }
         }
 
@@ -64,9 +64,8 @@ public class Json {
                 output.append(", ");
             output.append("\"");
             output.append(keys[i]);
-            output.append("\": \"");
+            output.append("\": ");
             output.append(vals[i]);
-            output.append("\"");
         }
         // adding the ending curly
         output.append(" }");
