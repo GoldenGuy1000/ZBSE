@@ -11,7 +11,7 @@
 <BorderPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ZBSE.GUI.Controller">
       <top>
          <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <MenuButton mnemonicParsing="false" text="Select Save">
+               <MenuButton fx:id="saveMenu" mnemonicParsing="false" text="Select Save">
                  <items>
                      <MenuItem mnemonicParsing="false" onAction="#SaveSelect" text="Save 1" userData="00" />
                      <MenuItem mnemonicParsing="false" onAction="#SaveSelect" text="Save 2" userData="01" />
