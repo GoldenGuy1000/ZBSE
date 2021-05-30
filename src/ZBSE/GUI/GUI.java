@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class GUI extends Application {
 
-    protected ZBSave currentSave;
+    protected static ZBSave currentSave;
 
     public static void main(String[] args) {
         launch(args);
@@ -26,4 +26,10 @@ public class GUI extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    public static void setSave(String saveNumber, String ZBSaveLoc) {
+        currentSave = new ZBSave(saveNumber, ZBSaveLoc);
+        System.out.println(currentSave.saveData);
+    }
+
 }
