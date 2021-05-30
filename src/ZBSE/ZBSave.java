@@ -23,7 +23,7 @@ public class ZBSave {
     public HashMap<String, Object> saveData;
 
     /**
-     * reads the file & initialises the save number/directory of the saves
+     * initialises the save number/directory of the saves
      *
      * @param saveNumber The save number you want to access
      *                   ex: the save number for save 1 is 00 so put that
@@ -34,7 +34,6 @@ public class ZBSave {
     public ZBSave(String saveNumber, String ZBSaveLoc) {
         saveNum = saveNumber;
         ZBDir = ZBSaveLoc;
-        read();
     }
 
     /**
